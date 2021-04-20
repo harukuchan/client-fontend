@@ -18,14 +18,14 @@ class ErrorPage extends React.Component {
           <div className={`${s.errorContainer} mx-auto`}>
             <h1 className={s.errorCode}>404</h1>
             <p className={s.errorInfo}>
-              Opps, it seems that this page does not exist here.
+              Opps, Hình như Pages này không tồn tại , bạn check lại nhóe.
             </p>
             <p className={[s.errorHelp, 'mb-3'].join(' ')}>
-              If you are sure it should, please search for it:
+              Nếu bạn chắc nó có tồn tại , hãy thử seach xem sao :
             </p>
             <Form method="get">
               <FormGroup>
-                <Input className="input-no-border" type="text" placeholder="Search Pages" />
+                <Input className="input-no-border" type="text" placeholder="Search" />
               </FormGroup>
               <Link to="app/extra/search">
                 <Button className={s.errorBtn} type="submit" color="inverse">
@@ -35,7 +35,7 @@ class ErrorPage extends React.Component {
             </Form>
           </div>
           <footer className={s.pageFooter}>
-            2020 &copy; Light Blue Template - React Admin Dashboard Template.
+            2020 &copy; Công Văn System
           </footer>
         </Container>
       </div>

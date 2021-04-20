@@ -57,9 +57,9 @@ class Dashboard extends React.Component {
     return (
       <div className={s.root}>
         <h1 className="page-title">
-          Dashboard &nbsp;
+          Công Văn &nbsp;
           <small>
-            <small>The Lucky One</small>
+            <small>Dashboard</small>
           </small>
         </h1>
 

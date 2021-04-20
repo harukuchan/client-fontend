@@ -9,7 +9,7 @@ import s from './Sidebar.module.scss';
 import LinksGroup from './LinksGroup';
 
 import {changeActiveSidebarItem} from '../../actions/navigation';
-import {logoutUser} from '../../actions/user';
+import { logoutUser} from '../../actions/user';
 import HomeIcon from '../Icons/SidebarIcons/HomeIcon';
 import TypographyIcon from '../Icons/SidebarIcons/TypographyIcon';
 import TablesIcon from '../Icons/SidebarIcons/TablesIcon';
@@ -78,8 +78,8 @@ class Sidebar extends React.Component {
                 }}
             >
                 <header className={s.logo}>
-                    <a href="https://demo.flatlogic.com/light-blue-react/">Light <span
-                        className="fw-bold">Blue</span></a>
+                    <a href="http://localhost:3000/#/app/main/dashboard">Công Văn  <span
+                        className="fw-bold">System</span></a>
                 </header>
                 <ul className={s.nav}>
                     <LinksGroup
@@ -101,15 +101,18 @@ class Sidebar extends React.Component {
                         link="/app/typography"
                         index="core"
                     />
-                    <LinksGroup
+                        <LinksGroup
                         onActiveSidebarItemChange={t => this.props.dispatch(changeActiveSidebarItem(t))}
                         activeItem={this.props.activeItem}
-                        header="Tables Basic"
+                        header="Tables Basic Account"
                         isHeader
                         iconName={<TablesIcon className={s.menuIcon} />}
                         link="/app/tables"
                         index="tables"
+                        
+                        // onClick={this.props.dispatch(getUserNhanVien())}
                     />
+                    
                     <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}

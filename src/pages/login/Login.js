@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { Container, Alert, Button, FormGroup, Label, InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap';
 import Widget from '../../components/Widget';
 import { loginUser } from '../../actions/user';
-import microsoft from '../../assets/microsoft.png';
+//import microsoft from '../../assets/microsoft.png';
+import facebook from '../../assets/facebook.png';
+
 
 class Login extends React.Component {
     static propTypes = {
@@ -20,14 +22,22 @@ class Login extends React.Component {
         super(props);
 
         this.state = {
-            email: 'admin@flatlogic.com',
-            password: 'password',
+            email: '',
+            password: '',
+            options: {
+                position: "top-right",
+                autoClose: 5000,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: true,
+              },
         };
 
         this.doLogin = this.doLogin.bind(this);
         this.changeEmail = this.changeEmail.bind(this);
         this.changePassword = this.changePassword.bind(this);
         this.signUp = this.signUp.bind(this);
+        this.forgetPassword = this.forgetPassword.bind(this);
     }
 
     changeEmail(event) {
@@ -40,11 +50,21 @@ class Login extends React.Component {
 
     doLogin(e) {
         e.preventDefault();
-        this.props.dispatch(loginUser({ email: this.state.email, password: this.state.password }));
+        this.props.dispatch(loginUser({
+            creds:{
+                email: this.state.email, 
+                password: this.state.password,
+            },
+            history: this.props.history,
+        }));
+        // this.props.dispatch(getUserNhanVien());
     }
 
     signUp() {
         this.props.history.push('/register');
+    }
+    forgetPassword(event){
+        this.props.history.push('/resetpassword');
     }
 
     render() {
@@ -60,7 +80,7 @@ class Login extends React.Component {
         return (
             <div className="auth-page">
                 <Container>
-                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login to your Web App</h3>}>
+                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login to your CongVan System</h3>}>
                         <p className="widget-auth-info">
                             Use your email to sign in.
                         </p>
@@ -81,7 +101,7 @@ class Login extends React.Component {
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input id="email" className="input-transparent pl-3" value={this.state.email} onChange={this.changeEmail} type="email"
-                                           required name="email" placeholder="Email"/>
+                                           required name="email" placeholder="Your Email"/>
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
@@ -109,15 +129,15 @@ class Login extends React.Component {
                                     Don't have an account? Sign up now!
                                 </p>
                                 <Link className="d-block text-center mb-4" to="register">Create an Account</Link>
+                                <p className="widget-auth-info mt-4">
+                                    Or forget your password ? You can change your password right here !
+                                </p>
+                                <Link className="d-block text-center mb-4" to="resetpassword">Forget Your Password</Link>
                                 <div className="social-buttons">
-                                    <Button color="primary" className="social-button">
-                                        <i className="social-icon social-google"/>
-                                        <p className="social-text">GOOGLE</p>
-                                    </Button>
                                     <Button color="success" className="social-button">
                                         <i className="social-icon social-microsoft"
-                                           style={{backgroundImage: `url(${microsoft})`}}/>
-                                        <p className="social-text" style={{color: '#fff'}}>MICROSOFT</p>
+                                           style={{backgroundImage: `url(${facebook})`}}/>
+                                        <p className="social-text" style={{color: '#fff'}}>Login with Facebook (Come back later)</p>
                                     </Button>
                                 </div>
                             </div>
@@ -125,7 +145,7 @@ class Login extends React.Component {
                     </Widget>
                 </Container>
                 <footer className="auth-footer">
-                {new Date().getFullYear()} &copy; Light Blue Template - React Admin Dashboard Template Made by <a href="https://flatlogic.com" rel="noopener noreferrer" target="_blank">Flatlogic LLC</a>.
+                {new Date().getFullYear()} &copy; CongVan System
                 </footer>
             </div>
         );

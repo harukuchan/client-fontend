@@ -50,6 +50,7 @@ import avatar from "../../assets/people/a7.jpg";
 import s from "./Header.module.scss";
 import "animate.css";
 
+
 class Header extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -137,6 +138,7 @@ class Header extends React.Component {
     this.props.dispatch(changeSidebarVisibility(visibility));
   }
 
+
   render() {
     return (
       <Navbar className={`d-print-none `}>
@@ -153,7 +155,7 @@ class Header extends React.Component {
           <UncontrolledAlert
             className={`${s.alert} mr-3 d-lg-down-none animate__animated animate__bounceIn animate__delay-1s`}
           >
-            Check out Light Blue{" "}
+            Check your settings{" "}
             <button
               className="btn-link"
               onClick={() => this.setState({ settingsOpen: true })}
@@ -218,7 +220,7 @@ class Header extends React.Component {
                 >
                   <img src={avatar} alt="..." />
                 </span>
-                <span className={`small d-sm-down-none ${s.accountCheck}`}>Philip smith</span>
+                <span className={`small d-sm-down-none ${s.accountCheck}`} >{localStorage.getItem('user-current-name')}</span>
                 <Badge className={`d-sm-down-none ${s.badge}`} color="danger">
                   9
                 </Badge>
