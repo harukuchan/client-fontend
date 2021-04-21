@@ -8,6 +8,11 @@ import * as serviceWorker from './serviceWorker';
 import App from './components/App';
 import reducers from './reducers';
 
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 const store = createStore(
   reducers,
   applyMiddleware(ReduxThunk)

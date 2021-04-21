@@ -1,10 +1,32 @@
-import React from "react";
+import axios from "axios";
+import React, {useState} from "react";
 import { Row, Col } from "reactstrap";
+import Button from "reactstrap/lib/Button";
+import FormGroup from "reactstrap/lib/FormGroup";
+import FormText from "reactstrap/lib/FormText";
+import Input from "reactstrap/lib/Input";
+import Label from "reactstrap/lib/Label";
 
 import Widget from "../../components/Widget";
 
-const Typography = () => (
-  <div>
+const Typography = () => {
+
+  const [file, setFile] = useState({})
+
+  const handleSubmit=(event) => {
+    event.preventDefault();
+    console.log(file);
+    const data = new FormData();
+    data.append('file', file);
+    axios.post('/api/uploadcongvan', data).then(res => console.log(res)).catch(err => console.log(err));
+  }
+
+  const handleChange = (e) => {
+    setFile(e.target.files[0]);
+  }
+
+  return (
+    <div>
     <h1 className="page-title">
       Typography - <span className="fw-semi-bold">Texts & Display</span>
     </h1>
@@ -24,22 +46,19 @@ const Typography = () => (
           <p>Basic headings for everyday use</p>
           <div className="widget-padding-md w-100 h-100 text-left border rounded">
             <Row>
-              <Col sm={6}>
-                <h1>h1. Heading</h1>
-                <h2>h2. Heading</h2>
-                <h3>h3. Heading</h3>
-                <h4>h4. Heading</h4>
-                <h5>h5. Heading</h5>
-                <h6>h6. Heading</h6>
-              </Col>
-              <Col sm={6}>
-                <h1 className="text-danger">h1. Heading</h1>
-                <h2 className="text-warning">h2. Heading</h2>
-                <h3 className="text-lime">h3. Heading</h3>
-                <h4 className="text-success">h4. Heading</h4>
-                <h5 className="text-primary">h5. Heading</h5>
-                <h6 className="text-info">h6. Heading</h6>
-              </Col>
+              {/* <FormGroup onSubmit={handleSubmit}>
+                <Label for="exampleFile">File</Label>
+                <Input type="file" name="file" id="exampleFile" />
+                <Button type="submit" >Submit</Button>
+                <FormText color="muted">
+                  This is some placeholder block-level help text for the above input.
+                  It's a bit lighter and easily wraps to a new line.
+                </FormText>
+              </FormGroup> */}
+              <form onSubmit={handleSubmit}>
+                <input type="file" name="file" onChange={handleChange} />
+                <button type="submit">Up File</button>
+              </form>
             </Row>
           </div>
           <h4 className="mt-5">Customized headings</h4>
@@ -152,6 +171,8 @@ const Typography = () => (
       </Col>
     </Row>
   </div>
-);
+  )
+ 
+}
 
 export default Typography;

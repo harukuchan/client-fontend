@@ -55,6 +55,7 @@ export function loginUser(payload) {
             })
             .then(
                 (res) => {
+                    console.log(res);
                     (res.data.message === 'success') ? localStorage.setItem('authenticated', true): dispatch(loginError('Something was wrong. Try again'))
                     payload.history.push('/app/main/dashboard')
                     toast.success("Login Success", {
