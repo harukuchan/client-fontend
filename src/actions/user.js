@@ -58,6 +58,10 @@ export function loginUser(payload) {
                     console.log(res);
                     (res.data.message === 'success') ? localStorage.setItem('authenticated', true): dispatch(loginError('Something was wrong. Try again'))
                     payload.history.push('/app/main/dashboard')
+                    console.log(res.data.message)
+                    console.log(res.data.user)
+                    localStorage.setItem('user-current-name', res.data.user.name)
+                    localStorage.setItem('user-current-role', res.data.user.phanquyen)
                     toast.success("Login Success", {
                         position: "bottom-right",
                         autoClose: 5000,
@@ -65,10 +69,6 @@ export function loginUser(payload) {
                         pauseOnHover: false,
                         draggable: true,
                       });
-                    console.log(res.data.message)
-                    console.log(res.data.user)
-                    localStorage.setItem('user-current-name', res.data.user.name)
-                    localStorage.setItem('user-current-role', res.data.user.phanquyen)
                 },
                        // tra ve ket qua duoi server
             )

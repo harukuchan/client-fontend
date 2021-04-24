@@ -92,7 +92,7 @@ class Sidebar extends React.Component {
                         index="main"
                     />
                     <h5 className={[s.navTitle, s.groupTitle].join(' ')}>TEMPLATE</h5>
-                    {localStorage.getItem('user-current-role') === "admin" ? null : <LinksGroup
+                    {localStorage.getItem('user-current-role') !== "admin" ? null : <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}
                         header="Typography"

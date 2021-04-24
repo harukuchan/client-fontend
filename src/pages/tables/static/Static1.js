@@ -9,7 +9,7 @@ import {
   DropdownMenu,
   DropdownToggle,
   DropdownItem,
-  Badge,
+  Badge
 } from "reactstrap";
 // import { Sparklines, SparklinesBars } from "react-sparklines";
 import Widget from "../../../components/Widget/Widget";
@@ -19,51 +19,38 @@ import ModalHeader from 'reactstrap/lib/ModalHeader';
 import Modal from 'reactstrap/lib/Modal';
 import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
-
-
+import Spinner from 'reactstrap/lib/Spinner';
+import Input from 'reactstrap/lib/Input';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Label from 'reactstrap/lib/Label';
+import InputGroupText from 'reactstrap/lib/InputGroupText';
+import InputGroup from 'reactstrap/lib/InputGroup';
+import InputGroupAddon from 'reactstrap/lib/InputGroupAddon';
 
 function Static() {
-
-    const ModalExample = () => {
-        // const {
-        //   buttonLabel,
-        //   className
-        // } = props;
-        const [modal, setModal] = useState(false);
-        const toggle = () => setModal(!modal);
-        const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={toggle}>&times;</button>;
-        return(
-            <div>
-            <Button color="danger" onClick={toggle}></Button>
-            <Modal isOpen={modal} toggle={toggle} external={externalCloseBtn}>
-                <ModalHeader>Modal title</ModalHeader>
-                <ModalBody>
-                <b>Look at the top right of the page/viewport!</b><br />
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </ModalBody>
-                <ModalFooter>
-                <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-                <Button color="secondary" onClick={toggle}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
-        </div>
-        )
-    }
-
+    const [modal, setModal] = useState(false);
+    const toggle = () => setModal(!modal);
+    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={toggle}>&times;</button>;
+    // const ModalExample = (props) => {
+    //     const {
+    //       buttonLabel,
+    //       className
+    //     } = props;
+    // }
+    
     const handleEdit = (event) =>{
-        // event.preventDefault();
+        event.preventDefault();
+        
+
+        
         // axios.post("http://127.0.0.1:8000/api/editusernhanvien")
         //     .then(res =>{
-        //         console.log(res);
+        //         console.log(res.data.user);
         //     })
-        // //     .catch(error => console.log(error))
-        // ModalExample({
-        //     buttonLabel : "openmodal",
-        //     className : "open"
-        // });
-        event.preventDefault();
-        return <ModalExample />
+        //     .catch(error => console.log(error))
+        alert('hj chó quang');
     }
+
     const handleDelete = (event) =>{
         event.preventDefault();
         axios.post("http://127.0.0.1:8000/api/deleteusernhanvien")
@@ -167,7 +154,77 @@ function Static() {
                                 </td>
                                 <td>
                                 <ButtonGroup>
-                                    <Button color="primary" onClick={handleEdit}>Edit</Button>
+                                
+                                <Button color="danger" onClick={toggle}>Edit</Button>
+                                <Modal isOpen={modal} toggle={toggle} external={externalCloseBtn}>
+                                    <ModalHeader>Modal title</ModalHeader>
+                                    <ModalBody>
+                                        <form>
+                                        <FormGroup className="mt">
+                                            <Label for="email">Email</Label>
+                                            <InputGroup className="input-group-no-border">
+                                                <InputGroupAddon addonType="prepend">
+                                                    <InputGroupText>
+                                                        <i className="la la-user text-white"/>
+                                                    </InputGroupText>
+                                                </InputGroupAddon>
+                                                <Input id="email" className="input-transparent pl-3"
+                                                     type="email"
+                                                    required name="email" placeholder="Your Email" />
+                                            </InputGroup>
+                                        </FormGroup>
+                                        
+                                        <FormGroup>
+                                            <Label for="confirmPassword">Gender</Label>
+                                            <InputGroup className="input-group-no-border">
+                                                <InputGroupAddon addonType="prepend">
+                                                    <InputGroupText>
+                                                        <i className="fa fa-child"/>
+                                                    </InputGroupText>
+                                                </InputGroupAddon>
+                                                <Input type="select" id="gender" className="input-transparent pl-3" 
+                                                     required>
+                                                        <option>Choose...</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                </Input>        
+                                            </InputGroup>
+                                        </FormGroup>
+
+                                        <FormGroup>
+                                            <Label for="name">Name</Label>
+                                            <InputGroup className="input-group-no-border">
+                                                <InputGroupAddon addonType="prepend">
+                                                    <InputGroupText>
+                                                        <i className="la la-lock text-white"/>
+                                                    </InputGroupText>
+                                                </InputGroupAddon>
+                                                <Input id="name" className="input-transparent pl-3" 
+                                                    type="text"
+                                                    required name="Name" placeholder="Your Name"/>
+                                            </InputGroup>
+                                        </FormGroup>
+
+                                        <FormGroup>
+                                            <Label for="role">Role</Label>
+                                            <Input type="select" id="role" className="input-transparent pl-3" 
+                                                     required>
+                                                        <option>Choose...</option>
+                                                        <option value="nhanvien">Nhân Viên</option>
+                                                        <option value="truongphong">Trưởng Phòng</option>
+                                                        <option value="thuky">Thư Ký</option>
+                                                        
+                                                </Input>
+                                        </FormGroup>
+                                        {/* <Button type="submit">Submit</Button> */}
+                                        </form>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="primary" onClick={handleEdit}>Do Something</Button>
+                                        <Button color="secondary" onClick={toggle}>Cancel</Button>
+                                    </ModalFooter>
+                                </Modal>
+
                                     <Button color="primary" onClick={handleDelete}>Delete</Button>
                                 </ButtonGroup>
                                 
@@ -349,7 +406,18 @@ function Static() {
     }
     else
     {
-        return "loading...";
+        return (
+            <div>
+              <Spinner type="grow" color="primary" />
+              <Spinner type="grow" color="secondary" />
+              <Spinner type="grow" color="success" />
+              <Spinner type="grow" color="danger" />
+              <Spinner type="grow" color="warning" />
+              <Spinner type="grow" color="info" />
+              <Spinner type="grow" color="light" />
+              <Spinner type="grow" color="dark" />
+            </div>
+          );
     }
     
 }

@@ -2,79 +2,98 @@ import axios from "axios";
 import React, {useState} from "react";
 import { Row, Col } from "reactstrap";
 import Button from "reactstrap/lib/Button";
-import FormGroup from "reactstrap/lib/FormGroup";
-import FormText from "reactstrap/lib/FormText";
-import Input from "reactstrap/lib/Input";
-import Label from "reactstrap/lib/Label";
 
 import Widget from "../../components/Widget";
 
 const Typography = () => {
 
   const [file, setFile] = useState({})
+  const [file1, setFile1] = useState({})
 
   const handleSubmit=(event) => {
     event.preventDefault();
     console.log(file);
     const data = new FormData();
-    data.append('file', file);
-    axios.post('/api/uploadcongvan', data).then(res => console.log(res)).catch(err => console.log(err));
+    data.append('file', file, file.name);
+    
+    axios.post('/api/uploadcongvan', data)
+      .then(res => 
+        console.log(res)
+        )
+      .catch(err => console.log(err));
   }
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
   }
 
+  const handleSubmit1=(event) => {
+    event.preventDefault();
+    console.log(file1);
+    const data = new FormData();
+    data.append('file', file1, file1.name);
+    
+    axios.post('/api/uploadcongvannotres', data)
+      .then(res => 
+        console.log(res)
+        )
+      .catch(err => console.log(err));
+  }
+
+  const handleChange1 = (e) => {
+    setFile1(e.target.files[0]);
+  }
+
+
   return (
     <div>
     <h1 className="page-title">
-      Typography - <span className="fw-semi-bold">Texts & Display</span>
+      Công Văn - <span className="fw-semi-bold">Upload & Showing</span>
     </h1>
     <Row>
       <Col xs={12} lg={6}>
         <Widget
           title={
-            <h5>
-              Headings{" "}
-              <small className="text-muted">Default and customized</small>
-            </h5>
+            <h4>
+              Upload{" "}
+              <small className="text-danger">Công Văn</small>
+            </h4>
           }
           close
           collapse
         >
-          <h4>Default headings</h4>
-          <p>Basic headings for everyday use</p>
+          <h5 className="mt-5">Công văn cần phản hồi</h5>
+          <p>Các loại định dạng công văn (PDF, Docx , txt ,... )</p>
           <div className="widget-padding-md w-100 h-100 text-left border rounded">
             <Row>
-              {/* <FormGroup onSubmit={handleSubmit}>
-                <Label for="exampleFile">File</Label>
-                <Input type="file" name="file" id="exampleFile" />
-                <Button type="submit" >Submit</Button>
-                <FormText color="muted">
-                  This is some placeholder block-level help text for the above input.
-                  It's a bit lighter and easily wraps to a new line.
-                </FormText>
-              </FormGroup> */}
               <form onSubmit={handleSubmit}>
                 <input type="file" name="file" onChange={handleChange} />
-                <button type="submit">Up File</button>
+                <Button type="submit" color="success">Up File</Button>
               </form>
             </Row>
           </div>
-          <h4 className="mt-5">Customized headings</h4>
-          <p>Enhanced with additional text</p>
+          <h5 className="mt-5">Công văn không cần phản hồi</h5>
+          <p>Các loại định dạng công văn (PDF, Docx , txt ,... )</p>
           <div className="widget-padding-md w-100 h-100 text-left border rounded">
-            <h3>
-              Headings <small>And some clarification text</small>
-            </h3>
+              <Row>
+              <form onSubmit={handleSubmit1}>
+                <input type="file" name="file" onChange={handleChange1} />
+                <Button type="submit" color="success">Up File</Button>
+              </form>
+              </Row>
           </div>
-          <h4 className="mt-5">Display</h4>
+          <br></br>
+          <br></br>
+          <h4>
+              Display{" "}
+              <small className="text-danger">Công Văn</small>
+            </h4>
           <p>Headings to stand out</p>
           <div className="widget-padding-md w-100 h-100 text-left border rounded overflow-auto">
-            <h1 className="display-1">Display 1</h1>
+            {/* <h1 className="display-1">Display 1</h1>
             <h1 className="display-2">Display 2</h1>
             <h1 className="display-3">Display 3</h1>
-            <h1 className="display-4">Display 4</h1>
+            <h1 className="display-4">Display 4</h1> */}
           </div>
           <h4 className="mt-5">Lead</h4>
           <p>
