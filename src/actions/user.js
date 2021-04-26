@@ -49,7 +49,7 @@ export function loginUser(payload) {
         dispatch(receiveLogin());
         
         if (payload.creds.email.length > 5 && payload.creds.password.length > 5) {   
-            axios.post("http://127.0.0.1:8000/api/loginuser", {
+            axios.post("/api/loginuser", {
                 email: payload.creds.email,
                 password: payload.creds.password,
             })

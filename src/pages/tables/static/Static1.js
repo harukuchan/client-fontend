@@ -53,7 +53,7 @@ function Static() {
 
     const handleDelete = (event) =>{
         event.preventDefault();
-        axios.post("http://127.0.0.1:8000/api/deleteusernhanvien")
+        axios.post("/api/deleteusernhanvien")
             .then(res =>{
                 console.log(res);
             })
@@ -61,12 +61,52 @@ function Static() {
     }
 
     const [nhanvien, setNhanVien] = useState([])
+    const [thuthu, setThuThu] = useState([]);
+    const [truongphong,setTruongPhong] = useState([]);
+    const [giamdoc,setGiamDoc] = useState([]);
+
+    const [url , setUrl] = useState('')
     
     useEffect(()=> {
-        axios.get("http://127.0.0.1:8000/api/getusernhanvien")
+        axios.post("/api/getfilefromaws")
+        .then(
+            res => console.log(res.data.message)
+            
+        )
+        .catch(
+            error => console.log(error)
+        )
+
+        axios.get("/api/getusernhanvien")
             .then(res => {
                 console.log(res.data.user);
                 setNhanVien((nhanvien) => [...nhanvien, ...res.data.user])
+                
+            }
+                )
+            .catch(err => console.log(err))
+
+        axios.get("/api/getuserthuthu")
+            .then(res => {
+                console.log(res.data.user);
+                setThuThu((thuthu) => [...thuthu, ...res.data.user])
+                
+            }
+                )
+            .catch(err => console.log(err))
+
+        axios.get("/api/getusertruongphong")
+            .then(res => {
+                console.log(res.data.user);
+                setTruongPhong((truongphong) => [...truongphong, ...res.data.user])
+            }
+                )
+            .catch(err => console.log(err))
+
+        axios.get("/api/getusergiamdoc")
+            .then(res => {
+                console.log(res.data.user);
+                setGiamDoc((giamdoc) => [...giamdoc, ...res.data.user])
                 
             }
                 )
@@ -77,7 +117,7 @@ function Static() {
             }
     }, [])
 
-    if(nhanvien.length !== 0)
+    if(nhanvien.length !== 0 || thuthu.length !== 0 || giamdoc.length !== 0 || truongphong.length !== 0)
     {
         return (
                 <div className={s.root}>
@@ -86,6 +126,16 @@ function Static() {
                     </h2>
                     <Row>
                     <Col>
+                        <Widget
+                        title={
+                            <h5>
+                            All <span className="fw-semi-bold">Account</span>
+                            </h5>
+                        }
+                        settings
+                        close
+                        bodyClass={s.mainTableWidget}
+                        >
                         <Widget
                         title={
                             <h5>
@@ -233,6 +283,245 @@ function Static() {
                             ))}
                             </tbody>
                         </Table>
+                        </Widget>
+                        
+                        <Widget
+                        title={
+                            <h5>
+                            Thủ Thư <span className="fw-semi-bold">Account</span>
+                            </h5>
+                        }
+                        settings
+                        close
+                        bodyClass={s.mainTableWidget}
+                        >        
+                        <Table striped>
+                            <thead>
+                            <tr className="fs-sm">
+                                <th className="hidden-sm-down">ID</th>
+                                <th className="hidden-sm-down">Email</th>
+                                <th className="hidden-sm-down">Name</th>
+                                <th className="hidden-sm-down">Info</th>
+                                <th className="hidden-sm-down">Role</th>
+                                <th className="hidden-sm-down">Date</th>
+                                <th className="hidden-sm-down">Control</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {thuthu.map((row) => (
+                                <tr key={row.id}>
+                                <td>{row._id}</td>
+                                <td>{row.email}</td>
+                                <td>{row.name}</td>
+                                <td>
+                                    <p className="mb-0">
+                                    <small>
+                                        Name:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.name}
+                                        </span>
+                                    </small>
+                                    </p>
+                                    <p>
+                                    <small>
+                                        Gender:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.gender}
+                                        </span>
+                                    </small>
+                                    </p>
+                                </td>
+                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
+                                <td className="text-muted">{row.phanquyen}</td>
+                                <td>
+                                    <p className="mb-0">
+                                    <small>
+                                        Create:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.created_at}
+                                        </span>
+                                    </small>
+                                    </p>
+                                    <p>
+                                    <small>
+                                        Update:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.updated_at}
+                                        </span>
+                                    </small>
+                                    </p>
+                                </td>
+                                <td>
+                                <ButtonGroup>
+                                    <Button color="danger" onClick={toggle}>Edit</Button>
+                                    <Button color="primary" onClick={handleDelete}>Delete</Button>
+                                </ButtonGroup>
+                                
+                                </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </Table>
+                        </Widget>
+                        
+                        <Widget
+                        title={
+                            <h5>
+                            Trưởng Phòng <span className="fw-semi-bold">Account</span>
+                            </h5>
+                        }
+                        settings
+                        close
+                        bodyClass={s.mainTableWidget}
+                        >
+                        <Table striped>
+                            <thead>
+                            <tr className="fs-sm">
+                                <th className="hidden-sm-down">ID</th>
+                                <th className="hidden-sm-down">Email</th>
+                                <th className="hidden-sm-down">Name</th>
+                                <th className="hidden-sm-down">Info</th>
+                                <th className="hidden-sm-down">Role</th>
+                                <th className="hidden-sm-down">Date</th>
+                                <th className="hidden-sm-down">Control</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {truongphong.map((row) => (
+                                <tr key={row.id}>
+                                <td>{row._id}</td>
+                                <td>{row.email}</td>
+                                <td>{row.name}</td>
+                                <td>
+                                    <p className="mb-0">
+                                    <small>
+                                        Name:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.name}
+                                        </span>
+                                    </small>
+                                    </p>
+                                    <p>
+                                    <small>
+                                        Gender:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.gender}
+                                        </span>
+                                    </small>
+                                    </p>
+                                </td>
+                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
+                                <td className="text-muted">{row.phanquyen}</td>
+                                <td>
+                                    <p className="mb-0">
+                                    <small>
+                                        Create:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.created_at}
+                                        </span>
+                                    </small>
+                                    </p>
+                                    <p>
+                                    <small>
+                                        Update:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.updated_at}
+                                        </span>
+                                    </small>
+                                    </p>
+                                </td>
+                                <td>
+                                <ButtonGroup>
+                                    <Button color="danger" onClick={toggle}>Edit</Button>
+                                    <Button color="primary" onClick={handleDelete}>Delete</Button>
+                                </ButtonGroup>
+                                
+                                </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </Table>
+                        </Widget>
+                        
+                        <Widget
+                        title={
+                            <h5>
+                            Giám Đốc <span className="fw-semi-bold">Account</span>
+                            </h5>
+                        }
+                        settings
+                        close
+                        bodyClass={s.mainTableWidget}
+                        >
+                        <Table striped>
+                            <thead>
+                            <tr className="fs-sm">
+                                <th className="hidden-sm-down">ID</th>
+                                <th className="hidden-sm-down">Email</th>
+                                <th className="hidden-sm-down">Name</th>
+                                <th className="hidden-sm-down">Info</th>
+                                <th className="hidden-sm-down">Role</th>
+                                <th className="hidden-sm-down">Date</th>
+                                <th className="hidden-sm-down">Control</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {giamdoc.map((row) => (
+                                <tr key={row.id}>
+                                <td>{row._id}</td>
+                                <td>{row.email}</td>
+                                <td>{row.name}</td>
+                                <td>
+                                    <p className="mb-0">
+                                    <small>
+                                        Name:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.name}
+                                        </span>
+                                    </small>
+                                    </p>
+                                    <p>
+                                    <small>
+                                        Gender:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.gender}
+                                        </span>
+                                    </small>
+                                    </p>
+                                </td>
+                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
+                                <td className="text-muted">{row.phanquyen}</td>
+                                <td>
+                                    <p className="mb-0">
+                                    <small>
+                                        Create:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.created_at}
+                                        </span>
+                                    </small>
+                                    </p>
+                                    <p>
+                                    <small>
+                                        Update:
+                                        <span className="text-muted fw-semi-bold">
+                                        &nbsp; {row.updated_at}
+                                        </span>
+                                    </small>
+                                    </p>
+                                </td>
+                                <td>
+                                <ButtonGroup>
+                                    <Button color="danger" onClick={toggle}>Edit</Button>
+                                    <Button color="primary" onClick={handleDelete}>Delete</Button>
+                                </ButtonGroup>
+                                
+                                </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </Table>
+                        </Widget>
+
                         <div className="clearfix">
                             <div className="float-right">
                             <Button color="default" className="mr-2" size="sm">
@@ -303,7 +592,9 @@ function Static() {
                             {/* eslint-disable */}
                             <tbody>
                                 <tr>
-                                <td>1</td>
+                                <td>
+                                    
+                                </td>
                                 <td>Mark</td>
                                 <td>Otto</td>
                                 <td>

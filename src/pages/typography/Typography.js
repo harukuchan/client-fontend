@@ -68,6 +68,7 @@ const Typography = () => {
             <Row>
               <form onSubmit={handleSubmit}>
                 <input type="file" name="file" onChange={handleChange} />
+                <input type="hidden" name="role" id="role" value={localStorage.getItem('user-current-name')}/>
                 <Button type="submit" color="success">Up File</Button>
               </form>
             </Row>
