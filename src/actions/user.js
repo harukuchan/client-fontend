@@ -62,6 +62,7 @@ export function loginUser(payload) {
                     console.log(res.data.user)
                     localStorage.setItem('user-current-name', res.data.user.name)
                     localStorage.setItem('user-current-role', res.data.user.phanquyen)
+                    payload.history.push('/app/main/dashboard')
                     toast.success("Login Success", {
                         position: "bottom-right",
                         autoClose: 5000,

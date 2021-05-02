@@ -92,7 +92,7 @@ class Sidebar extends React.Component {
                         index="main"
                     />
                     <h5 className={[s.navTitle, s.groupTitle].join(' ')}>TEMPLATE</h5>
-                    {localStorage.getItem('user-current-role') !== "admin" ? null : <LinksGroup
+                    <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}
                         header="Typography"
@@ -100,19 +100,17 @@ class Sidebar extends React.Component {
                         iconName={<TypographyIcon className={s.menuIcon} />}
                         link="/app/typography"
                         index="core"
-                    />}
+                    />
                     
-                        <LinksGroup
+                    {localStorage.getItem('user-current-role') === 'admin' ? <LinksGroup
                         onActiveSidebarItemChange={t => this.props.dispatch(changeActiveSidebarItem(t))}
                         activeItem={this.props.activeItem}
-                        header="Tables Basic Account"
+                        header="Tables Account"
                         isHeader
                         iconName={<TablesIcon className={s.menuIcon} />}
                         link="/app/tables"
                         index="tables"
-                        
-                        // onClick={this.props.dispatch(getUserNhanVien())}
-                    />
+                    /> : null}
                     
                     <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}

@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {
-  Row,
-  Col,
-  Table,
-  Button,
-  UncontrolledButtonDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
-  Badge
+    Row,
+    Col,
+    Table,
+    Button,
+    UncontrolledButtonDropdown,
+    DropdownMenu,
+    DropdownToggle,
+    DropdownItem,
+    Badge
 } from "reactstrap";
 // import { Sparklines, SparklinesBars } from "react-sparklines";
 import Widget from "../../../components/Widget/Widget";
@@ -37,24 +37,24 @@ function Static() {
     //       className
     //     } = props;
     // }
-    
-    const handleEdit = (event) =>{
-        event.preventDefault();
-        
 
-        
+    const handleEdit = (event) => {
+        event.preventDefault();
+
+
+
         // axios.post("http://127.0.0.1:8000/api/editusernhanvien")
         //     .then(res =>{
         //         console.log(res.data.user);
         //     })
         //     .catch(error => console.log(error))
-        alert('hj chó quang');
+        alert('hj');
     }
 
-    const handleDelete = (event) =>{
+    const handleDelete = (event) => {
         event.preventDefault();
         axios.post("/api/deleteusernhanvien")
-            .then(res =>{
+            .then(res => {
                 console.log(res);
             })
             .catch(error => console.log(error))
@@ -62,655 +62,650 @@ function Static() {
 
     const [nhanvien, setNhanVien] = useState([])
     const [thuthu, setThuThu] = useState([]);
-    const [truongphong,setTruongPhong] = useState([]);
-    const [giamdoc,setGiamDoc] = useState([]);
+    const [truongphong, setTruongPhong] = useState([]);
+    const [giamdoc, setGiamDoc] = useState([]);
 
-    const [url , setUrl] = useState('')
-    
-    useEffect(()=> {
+    // const [url , setUrl] = useState('')
+
+    useEffect(() => {
         axios.post("/api/getfilefromaws")
-        .then(
-            res => console.log(res.data.message)
-            
-        )
-        .catch(
-            error => console.log(error)
-        )
+            .then(
+                res => console.log(res.data.message)
+            )
+            .catch(
+                error => console.log(error)
+            )
 
         axios.get("/api/getusernhanvien")
             .then(res => {
-                console.log(res.data.user);
                 setNhanVien((nhanvien) => [...nhanvien, ...res.data.user])
-                
             }
-                )
+            )
             .catch(err => console.log(err))
 
         axios.get("/api/getuserthuthu")
             .then(res => {
-                console.log(res.data.user);
+
                 setThuThu((thuthu) => [...thuthu, ...res.data.user])
-                
+
             }
-                )
+            )
             .catch(err => console.log(err))
 
         axios.get("/api/getusertruongphong")
             .then(res => {
-                console.log(res.data.user);
+
                 setTruongPhong((truongphong) => [...truongphong, ...res.data.user])
             }
-                )
+            )
             .catch(err => console.log(err))
 
         axios.get("/api/getusergiamdoc")
             .then(res => {
-                console.log(res.data.user);
+
                 setGiamDoc((giamdoc) => [...giamdoc, ...res.data.user])
-                
+
             }
-                )
+            )
             .catch(err => console.log(err))
-            
-            return () => {
-                
-            }
+
+        return () => {
+
+        }
     }, [])
 
-    if(nhanvien.length !== 0 || thuthu.length !== 0 || giamdoc.length !== 0 || truongphong.length !== 0)
-    {
+    if (nhanvien.length !== 0 || thuthu.length !== 0 || giamdoc.length !== 0 || truongphong.length !== 0) {
         return (
-                <div className={s.root}>
-                    <h2 className="page-title">
+            <div className={s.root}>
+                <h2 className="page-title">
                     Tables - <span className="fw-semi-bold">Static</span>
-                    </h2>
-                    <Row>
+                </h2>
+                <Row>
                     <Col>
                         <Widget
-                        title={
-                            <h5>
-                            All <span className="fw-semi-bold">Account</span>
-                            </h5>
-                        }
-                        settings
-                        close
-                        bodyClass={s.mainTableWidget}
+                            title={
+                                <h5>
+                                    All <span className="fw-semi-bold">Account</span>
+                                </h5>
+                            }
+                            settings
+                            close
+                            bodyClass={s.mainTableWidget}
                         >
-                        <Widget
-                        title={
-                            <h5>
-                            User <span className="fw-semi-bold">Account</span>
-                            </h5>
-                        }
-                        settings
-                        close
-                        bodyClass={s.mainTableWidget}
-                        >
-                        <Table striped>
-                            <thead>
-                            <tr className="fs-sm">
-                                <th className="hidden-sm-down">ID</th>
-                                <th className="hidden-sm-down">Email</th>
-                                <th className="hidden-sm-down">Name</th>
-                                <th className="hidden-sm-down">Info</th>
-                                <th className="hidden-sm-down">Role</th>
-                                <th className="hidden-sm-down">Date</th>
-                                <th className="hidden-sm-down">Control</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {nhanvien.map((row) => (
-                                <tr key={row.id}>
-                                <td>{row._id}</td>
-                                <td>{row.email}</td>
-                                <td>{row.name}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Name:
+                            <Widget
+                                title={
+                                    <h5>
+                                        User <span className="fw-semi-bold">Account</span>
+                                    </h5>
+                                }
+                                settings
+                                close
+                                bodyClass={s.mainTableWidget}
+                            >
+                                <Table striped>
+                                    <thead>
+                                        <tr className="fs-sm">
+                                            <th className="hidden-sm-down">ID</th>
+                                            <th className="hidden-sm-down">Email</th>
+                                            <th className="hidden-sm-down">Name</th>
+                                            <th className="hidden-sm-down">Info</th>
+                                            <th className="hidden-sm-down">Role</th>
+                                            <th className="hidden-sm-down">Date</th>
+                                            <th className="hidden-sm-down">Control</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {nhanvien.map((row) => (
+                                            <tr key={row.id}>
+                                                <td>{row._id}</td>
+                                                <td>{row.email}</td>
+                                                <td>{row.name}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Name:
                                         <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.name}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Gender:
+                                                                &nbsp; {row.name}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Gender:
                                         <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.gender}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
-                                <td className="text-muted">{row.phanquyen}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Create:
+                                                                &nbsp; {row.gender}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
+                                                <td className="text-muted">{row.phanquyen}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Create:
                                         <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.created_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Update:
+                                                                &nbsp; {row.created_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Update:
                                         <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.updated_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                <td>
-                                <ButtonGroup>
-                                
-                                <Button color="danger" onClick={toggle}>Edit</Button>
-                                <Modal isOpen={modal} toggle={toggle} external={externalCloseBtn}>
-                                    <ModalHeader>Modal title</ModalHeader>
-                                    <ModalBody>
-                                        <form>
-                                        <FormGroup className="mt">
-                                            <Label for="email">Email</Label>
-                                            <InputGroup className="input-group-no-border">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="la la-user text-white"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input id="email" className="input-transparent pl-3"
-                                                     type="email"
-                                                    required name="email" placeholder="Your Email" />
-                                            </InputGroup>
-                                        </FormGroup>
-                                        
-                                        <FormGroup>
-                                            <Label for="confirmPassword">Gender</Label>
-                                            <InputGroup className="input-group-no-border">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="fa fa-child"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input type="select" id="gender" className="input-transparent pl-3" 
-                                                     required>
-                                                        <option>Choose...</option>
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
-                                                </Input>        
-                                            </InputGroup>
-                                        </FormGroup>
+                                                                &nbsp; {row.updated_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <ButtonGroup>
 
-                                        <FormGroup>
-                                            <Label for="name">Name</Label>
-                                            <InputGroup className="input-group-no-border">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="la la-lock text-white"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input id="name" className="input-transparent pl-3" 
-                                                    type="text"
-                                                    required name="Name" placeholder="Your Name"/>
-                                            </InputGroup>
-                                        </FormGroup>
+                                                        <Button color="danger" onClick={toggle}>Edit</Button>
+                                                        <Modal isOpen={modal} toggle={toggle} external={externalCloseBtn}>
+                                                            <ModalHeader>Modal title</ModalHeader>
+                                                            <ModalBody>
+                                                                <form>
+                                                                    <FormGroup className="mt">
+                                                                        <Label for="email">Email</Label>
+                                                                        <InputGroup className="input-group-no-border">
+                                                                            <InputGroupAddon addonType="prepend">
+                                                                                <InputGroupText>
+                                                                                    <i className="la la-user text-white" />
+                                                                                </InputGroupText>
+                                                                            </InputGroupAddon>
+                                                                            <Input id="email" className="input-transparent pl-3"
+                                                                                type="email"
+                                                                                required name="email" placeholder="Your Email" />
+                                                                        </InputGroup>
+                                                                    </FormGroup>
 
-                                        <FormGroup>
-                                            <Label for="role">Role</Label>
-                                            <Input type="select" id="role" className="input-transparent pl-3" 
-                                                     required>
-                                                        <option>Choose...</option>
-                                                        <option value="nhanvien">Nhân Viên</option>
-                                                        <option value="truongphong">Trưởng Phòng</option>
-                                                        <option value="thuky">Thư Ký</option>
-                                                        
-                                                </Input>
-                                        </FormGroup>
-                                        {/* <Button type="submit">Submit</Button> */}
-                                        </form>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="primary" onClick={handleEdit}>Do Something</Button>
-                                        <Button color="secondary" onClick={toggle}>Cancel</Button>
-                                    </ModalFooter>
-                                </Modal>
+                                                                    <FormGroup>
+                                                                        <Label for="confirmPassword">Gender</Label>
+                                                                        <InputGroup className="input-group-no-border">
+                                                                            <InputGroupAddon addonType="prepend">
+                                                                                <InputGroupText>
+                                                                                    <i className="fa fa-child" />
+                                                                                </InputGroupText>
+                                                                            </InputGroupAddon>
+                                                                            <Input type="select" id="gender" className="input-transparent pl-3"
+                                                                                required>
+                                                                                <option>Choose...</option>
+                                                                                <option value="Male">Male</option>
+                                                                                <option value="Female">Female</option>
+                                                                            </Input>
+                                                                        </InputGroup>
+                                                                    </FormGroup>
 
-                                    <Button color="primary" onClick={handleDelete}>Delete</Button>
-                                </ButtonGroup>
-                                
-                                </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </Table>
-                        </Widget>
-                        
-                        <Widget
-                        title={
-                            <h5>
-                            Thủ Thư <span className="fw-semi-bold">Account</span>
-                            </h5>
-                        }
-                        settings
-                        close
-                        bodyClass={s.mainTableWidget}
-                        >        
-                        <Table striped>
-                            <thead>
-                            <tr className="fs-sm">
-                                <th className="hidden-sm-down">ID</th>
-                                <th className="hidden-sm-down">Email</th>
-                                <th className="hidden-sm-down">Name</th>
-                                <th className="hidden-sm-down">Info</th>
-                                <th className="hidden-sm-down">Role</th>
-                                <th className="hidden-sm-down">Date</th>
-                                <th className="hidden-sm-down">Control</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {thuthu.map((row) => (
-                                <tr key={row.id}>
-                                <td>{row._id}</td>
-                                <td>{row.email}</td>
-                                <td>{row.name}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Name:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.name}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Gender:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.gender}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
-                                <td className="text-muted">{row.phanquyen}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Create:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.created_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Update:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.updated_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                <td>
-                                <ButtonGroup>
-                                    <Button color="danger" onClick={toggle}>Edit</Button>
-                                    <Button color="primary" onClick={handleDelete}>Delete</Button>
-                                </ButtonGroup>
-                                
-                                </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </Table>
-                        </Widget>
-                        
-                        <Widget
-                        title={
-                            <h5>
-                            Trưởng Phòng <span className="fw-semi-bold">Account</span>
-                            </h5>
-                        }
-                        settings
-                        close
-                        bodyClass={s.mainTableWidget}
-                        >
-                        <Table striped>
-                            <thead>
-                            <tr className="fs-sm">
-                                <th className="hidden-sm-down">ID</th>
-                                <th className="hidden-sm-down">Email</th>
-                                <th className="hidden-sm-down">Name</th>
-                                <th className="hidden-sm-down">Info</th>
-                                <th className="hidden-sm-down">Role</th>
-                                <th className="hidden-sm-down">Date</th>
-                                <th className="hidden-sm-down">Control</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {truongphong.map((row) => (
-                                <tr key={row.id}>
-                                <td>{row._id}</td>
-                                <td>{row.email}</td>
-                                <td>{row.name}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Name:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.name}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Gender:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.gender}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
-                                <td className="text-muted">{row.phanquyen}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Create:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.created_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Update:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.updated_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                <td>
-                                <ButtonGroup>
-                                    <Button color="danger" onClick={toggle}>Edit</Button>
-                                    <Button color="primary" onClick={handleDelete}>Delete</Button>
-                                </ButtonGroup>
-                                
-                                </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </Table>
-                        </Widget>
-                        
-                        <Widget
-                        title={
-                            <h5>
-                            Giám Đốc <span className="fw-semi-bold">Account</span>
-                            </h5>
-                        }
-                        settings
-                        close
-                        bodyClass={s.mainTableWidget}
-                        >
-                        <Table striped>
-                            <thead>
-                            <tr className="fs-sm">
-                                <th className="hidden-sm-down">ID</th>
-                                <th className="hidden-sm-down">Email</th>
-                                <th className="hidden-sm-down">Name</th>
-                                <th className="hidden-sm-down">Info</th>
-                                <th className="hidden-sm-down">Role</th>
-                                <th className="hidden-sm-down">Date</th>
-                                <th className="hidden-sm-down">Control</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {giamdoc.map((row) => (
-                                <tr key={row.id}>
-                                <td>{row._id}</td>
-                                <td>{row.email}</td>
-                                <td>{row.name}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Name:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.name}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Gender:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.gender}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
-                                <td className="text-muted">{row.phanquyen}</td>
-                                <td>
-                                    <p className="mb-0">
-                                    <small>
-                                        Create:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.created_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                    <p>
-                                    <small>
-                                        Update:
-                                        <span className="text-muted fw-semi-bold">
-                                        &nbsp; {row.updated_at}
-                                        </span>
-                                    </small>
-                                    </p>
-                                </td>
-                                <td>
-                                <ButtonGroup>
-                                    <Button color="danger" onClick={toggle}>Edit</Button>
-                                    <Button color="primary" onClick={handleDelete}>Delete</Button>
-                                </ButtonGroup>
-                                
-                                </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </Table>
-                        </Widget>
+                                                                    <FormGroup>
+                                                                        <Label for="name">Name</Label>
+                                                                        <InputGroup className="input-group-no-border">
+                                                                            <InputGroupAddon addonType="prepend">
+                                                                                <InputGroupText>
+                                                                                    <i className="la la-lock text-white" />
+                                                                                </InputGroupText>
+                                                                            </InputGroupAddon>
+                                                                            <Input id="name" className="input-transparent pl-3"
+                                                                                type="text"
+                                                                                required name="Name" placeholder="Your Name" />
+                                                                        </InputGroup>
+                                                                    </FormGroup>
 
-                        <div className="clearfix">
-                            <div className="float-right">
-                            <Button color="default" className="mr-2" size="sm">
-                                Send to...
+                                                                    <FormGroup>
+                                                                        <Label for="role">Role</Label>
+                                                                        <Input type="select" id="role" className="input-transparent pl-3"
+                                                                            required>
+                                                                            <option>Choose...</option>
+                                                                            <option value="nhanvien">Nhân Viên</option>
+                                                                            <option value="truongphong">Trưởng Phòng</option>
+                                                                            <option value="thuky">Thư Ký</option>
+
+                                                                        </Input>
+                                                                    </FormGroup>
+                                                                    {/* <Button type="submit">Submit</Button> */}
+                                                                </form>
+                                                            </ModalBody>
+                                                            <ModalFooter>
+                                                                <Button color="primary" onClick={handleEdit}>Do Something</Button>
+                                                                <Button color="secondary" onClick={toggle}>Cancel</Button>
+                                                            </ModalFooter>
+                                                        </Modal>
+
+                                                        <Button color="primary" onClick={handleDelete}>Delete</Button>
+                                                    </ButtonGroup>
+
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </Widget>
+
+                            <Widget
+                                title={
+                                    <h5>
+                                        Thủ Thư <span className="fw-semi-bold">Account</span>
+                                    </h5>
+                                }
+                                settings
+                                close
+                                bodyClass={s.mainTableWidget}
+                            >
+                                <Table striped>
+                                    <thead>
+                                        <tr className="fs-sm">
+                                            <th className="hidden-sm-down">ID</th>
+                                            <th className="hidden-sm-down">Email</th>
+                                            <th className="hidden-sm-down">Name</th>
+                                            <th className="hidden-sm-down">Info</th>
+                                            <th className="hidden-sm-down">Role</th>
+                                            <th className="hidden-sm-down">Date</th>
+                                            <th className="hidden-sm-down">Control</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {thuthu.map((row) => (
+                                            <tr key={row.id}>
+                                                <td>{row._id}</td>
+                                                <td>{row.email}</td>
+                                                <td>{row.name}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Name:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.name}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Gender:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.gender}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
+                                                <td className="text-muted">{row.phanquyen}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Create:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.created_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Update:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.updated_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <ButtonGroup>
+                                                        <Button color="danger" onClick={toggle}>Edit</Button>
+                                                        <Button color="primary" onClick={handleDelete}>Delete</Button>
+                                                    </ButtonGroup>
+
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </Widget>
+
+                            <Widget
+                                title={
+                                    <h5>
+                                        Trưởng Phòng <span className="fw-semi-bold">Account</span>
+                                    </h5>
+                                }
+                                settings
+                                close
+                                bodyClass={s.mainTableWidget}
+                            >
+                                <Table striped>
+                                    <thead>
+                                        <tr className="fs-sm">
+                                            <th className="hidden-sm-down">ID</th>
+                                            <th className="hidden-sm-down">Email</th>
+                                            <th className="hidden-sm-down">Name</th>
+                                            <th className="hidden-sm-down">Info</th>
+                                            <th className="hidden-sm-down">Role</th>
+                                            <th className="hidden-sm-down">Date</th>
+                                            <th className="hidden-sm-down">Control</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {truongphong.map((row) => (
+                                            <tr key={row.id}>
+                                                <td>{row._id}</td>
+                                                <td>{row.email}</td>
+                                                <td>{row.name}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Name:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.name}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Gender:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.gender}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
+                                                <td className="text-muted">{row.phanquyen}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Create:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.created_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Update:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.updated_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <ButtonGroup>
+                                                        <Button color="danger" onClick={toggle}>Edit</Button>
+                                                        <Button color="primary" onClick={handleDelete}>Delete</Button>
+                                                    </ButtonGroup>
+
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </Widget>
+
+                            <Widget
+                                title={
+                                    <h5>
+                                        Giám Đốc <span className="fw-semi-bold">Account</span>
+                                    </h5>
+                                }
+                                settings
+                                close
+                                bodyClass={s.mainTableWidget}
+                            >
+                                <Table striped>
+                                    <thead>
+                                        <tr className="fs-sm">
+                                            <th className="hidden-sm-down">ID</th>
+                                            <th className="hidden-sm-down">Email</th>
+                                            <th className="hidden-sm-down">Name</th>
+                                            <th className="hidden-sm-down">Info</th>
+                                            <th className="hidden-sm-down">Role</th>
+                                            <th className="hidden-sm-down">Date</th>
+                                            <th className="hidden-sm-down">Control</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {giamdoc.map((row) => (
+                                            <tr key={row.id}>
+                                                <td>{row._id}</td>
+                                                <td>{row.email}</td>
+                                                <td>{row.name}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Name:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.name}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Gender:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.gender}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                {/* <td className="text-muted">{this.parseDate(row.date)}</td> */}
+                                                <td className="text-muted">{row.phanquyen}</td>
+                                                <td>
+                                                    <p className="mb-0">
+                                                        <small>
+                                                            Create:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.created_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                    <p>
+                                                        <small>
+                                                            Update:
+                                        <span className="text-muted fw-semi-bold">
+                                                                &nbsp; {row.updated_at}
+                                                            </span>
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <ButtonGroup>
+                                                        <Button color="danger" onClick={toggle}>Edit</Button>
+                                                        <Button color="primary" onClick={handleDelete}>Delete</Button>
+                                                    </ButtonGroup>
+
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </Widget>
+
+                            <div className="clearfix">
+                                <div className="float-right">
+                                    <Button color="default" className="mr-2" size="sm">
+                                        Send to...
                             </Button>
-                            <UncontrolledButtonDropdown>
-                                <DropdownToggle
-                                color="inverse"
-                                className="mr-xs"
-                                size="sm"
-                                caret
-                                >
-                                Clear
+                                    <UncontrolledButtonDropdown>
+                                        <DropdownToggle
+                                            color="inverse"
+                                            className="mr-xs"
+                                            size="sm"
+                                            caret
+                                        >
+                                            Clear
                                 </DropdownToggle>
-                                <DropdownMenu>
-                                <DropdownItem>Clear</DropdownItem>
-                                <DropdownItem>Move ...</DropdownItem>
-                                <DropdownItem>Something else here</DropdownItem>
-                                <DropdownItem divider />
-                                <DropdownItem>Separated link</DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledButtonDropdown>
+                                        <DropdownMenu>
+                                            <DropdownItem>Clear</DropdownItem>
+                                            <DropdownItem>Move ...</DropdownItem>
+                                            <DropdownItem>Something else here</DropdownItem>
+                                            <DropdownItem divider />
+                                            <DropdownItem>Separated link</DropdownItem>
+                                        </DropdownMenu>
+                                    </UncontrolledButtonDropdown>
+                                </div>
+                                <p>Basic table with styled content</p>
                             </div>
-                            <p>Basic table with styled content</p>
-                        </div>
                         </Widget>
                     </Col>
-                    </Row>
-                    <Row>
+                </Row>
+                <Row>
                     <Col lg={6}>
                         <Widget
-                        title={
-                            <h5>
-                            Table <span className="fw-semi-bold">Styles</span>
-                            </h5>
-                        }
-                        settings
-                        close
+                            title={
+                                <h5>
+                                    Table <span className="fw-semi-bold">Styles</span>
+                                </h5>
+                            }
+                            settings
+                            close
                         >
-                        <h3>
-                            Stripped <span className="fw-semi-bold">Table</span>
-                        </h3>
+                            <h3>
+                                Stripped <span className="fw-semi-bold">Table</span>
+                            </h3>
 
-                        <p>
-                            Each row is highlighted. You will never lost there. Just{" "}
-                            <code>.table-striped</code> it.
+                            <p>
+                                Each row is highlighted. You will never lost there. Just{" "}
+                                <code>.table-striped</code> it.
                         </p>
-                        <br />
-                        <br />
-                        <h3>
-                            Hover <span className="fw-semi-bold">Table</span>
-                        </h3>
-                        <p>
-                            {"Trace only what's really important. "}
-                            <code>.table-hover</code> is made for it.
+                            <br />
+                            <br />
+                            <h3>
+                                Hover <span className="fw-semi-bold">Table</span>
+                            </h3>
+                            <p>
+                                {"Trace only what's really important. "}
+                                <code>.table-hover</code> is made for it.
                         </p>
-                        <div className="table-responsive">
-                            <Table className="table-hover">
-                            <thead>
-                                <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                </tr>
-                            </thead>
-                            {/* eslint-disable */}
-                            <tbody>
-                                <tr>
-                                <td>
-                                    
-                                </td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>
-                                    <a href="#">ottoto@example.com</a>
-                                </td>
-                                <td>
-                                    <Badge color="gray" className="text-secondary" pill>
-                                    Pending
+                            <div className="table-responsive">
+                                <Table className="table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    {/* eslint-disable */}
+                                    <tbody>
+                                        <tr>
+                                            <td>
+
+                                            </td>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>
+                                                <a href="#">ottoto@example.com</a>
+                                            </td>
+                                            <td>
+                                                <Badge color="gray" className="text-secondary" pill>
+                                                    Pending
                                     </Badge>
-                                </td>
-                                </tr>
-                                <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>
-                                    <a href="#">fat.thor@example.com</a>
-                                </td>
-                                <td>
-                                    <Badge color="gray" className="text-secondary" pill>
-                                    Unconfirmed
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>
+                                                <a href="#">fat.thor@example.com</a>
+                                            </td>
+                                            <td>
+                                                <Badge color="gray" className="text-secondary" pill>
+                                                    Unconfirmed
                                     </Badge>
-                                </td>
-                                </tr>
-                                <tr>
-                                <td>3</td>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>
-                                    <a href="#">larry@example.com</a>
-                                </td>
-                                <td>
-                                    <Badge color="primary" className="text-secondary" pill>
-                                    New
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>
+                                                <a href="#">larry@example.com</a>
+                                            </td>
+                                            <td>
+                                                <Badge color="primary" className="text-secondary" pill>
+                                                    New
                                     </Badge>
-                                </td>
-                                </tr>
-                                <tr>
-                                <td>4</td>
-                                <td>Peter</td>
-                                <td>Horadnia</td>
-                                <td>
-                                    <a href="#">peter@example.com</a>
-                                </td>
-                                <td>
-                                    <Badge color="success" className="text-secondary" pill>
-                                    Active
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Peter</td>
+                                            <td>Horadnia</td>
+                                            <td>
+                                                <a href="#">peter@example.com</a>
+                                            </td>
+                                            <td>
+                                                <Badge color="success" className="text-secondary" pill>
+                                                    Active
                                     </Badge>
-                                </td>
-                                </tr>
-                            </tbody>
-                            {/* eslint-enable */}
-                            </Table>
-                        </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    {/* eslint-enable */}
+                                </Table>
+                            </div>
                         </Widget>
                     </Col>
                     <Col lg={6}>
                         <Widget
-                        title={
-                            <h5>
-                            Table <span className="fw-semi-bold">Styles</span>
-                            </h5>
-                        }
-                        settings
-                        close
+                            title={
+                                <h5>
+                                    Table <span className="fw-semi-bold">Styles</span>
+                                </h5>
+                            }
+                            settings
+                            close
                         >
-                        <h3>
-                            Bordered <span className="fw-semi-bold">Table</span>
-                        </h3>
-                        <p>
-                            Each row is highlighted. You will never lost there. That&apos;s
-                            how all of us learned in school the table should look like. Just
-                            add
+                            <h3>
+                                Bordered <span className="fw-semi-bold">Table</span>
+                            </h3>
+                            <p>
+                                Each row is highlighted. You will never lost there. That&apos;s
+                                how all of us learned in school the table should look like. Just
+                                add
                             <code>.table-bordered</code> to it.
                         </p>
                         </Widget>
                         <Widget
-                        title={
-                            <h5>
-                            Table <span className="fw-semi-bold">Styles</span>
-                            </h5>
-                        }
-                        settings
-                        close
+                            title={
+                                <h5>
+                                    Table <span className="fw-semi-bold">Styles</span>
+                                </h5>
+                            }
+                            settings
+                            close
                         >
-                        <h3>
-                            Overflow <span className="fw-semi-bold">Table</span>
-                        </h3>
-                        <p>
-                            Add any non-bordered .table within a widget for a seamless
-                            design. Awesome look for no cost. Just wrap the table with
+                            <h3>
+                                Overflow <span className="fw-semi-bold">Table</span>
+                            </h3>
+                            <p>
+                                Add any non-bordered .table within a widget for a seamless
+                                design. Awesome look for no cost. Just wrap the table with
                             simple css class <code>.widget-table-overflow</code> inside of
                             widget
                         </p>
                         </Widget>
                     </Col>
-                    </Row>
-                </div>
+                </Row>
+            </div>
         )
     }
-    else
-    {
+    else {
         return (
             <div>
-              <Spinner type="grow" color="primary" />
-              <Spinner type="grow" color="secondary" />
-              <Spinner type="grow" color="success" />
-              <Spinner type="grow" color="danger" />
-              <Spinner type="grow" color="warning" />
-              <Spinner type="grow" color="info" />
-              <Spinner type="grow" color="light" />
-              <Spinner type="grow" color="dark" />
+                <Spinner type="grow" color="primary" />
+                <Spinner type="grow" color="secondary" />
+                <Spinner type="grow" color="success" />
+                <Spinner type="grow" color="danger" />
+                <Spinner type="grow" color="warning" />
+                <Spinner type="grow" color="info" />
+                <Spinner type="grow" color="light" />
+                <Spinner type="grow" color="dark" />
             </div>
-          );
+        );
     }
-    
+
 }
 
 export default Static
