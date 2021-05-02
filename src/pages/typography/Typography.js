@@ -118,6 +118,30 @@ const Typography = () => {
 
     }
   }
+
+  const handleview1 = (e) => {
+    e.preventDefault();
+    const id = e.target.getAttribute("idbutton");
+    const data = {
+      "viewfile": e.target.value,
+    }
+    axios.post("/api/getfilenotresfromaws", data)
+      .then( 
+        res => {
+          console.log(res.data.url)
+          setUrlDownload((urldownload) => [...urldownload,{
+            'idbutton' : id,
+            'url' : res.data.url,
+          }])
+        }
+      )
+      .catch(
+        error => console.log(error)
+      )
+    return () => {
+
+    }
+  }
   
   useEffect(() => {
     
@@ -265,7 +289,7 @@ const Typography = () => {
                       <td>{row.namecongvan}</td>
                       <td>{row.mimetype}</td>
                       <td>{row.author_id}</td>
-                      <td>{row.status}</td>
+                      <td>{row.type}</td>
                       <br></br>
                       <ButtonGroup>
                         {urldownload.length !== 0 ? urldownload.map(item => {
@@ -275,6 +299,7 @@ const Typography = () => {
                           }
                         }) : null}
                         <Button color="danger" idbutton={row._id} value={row.namecongvan} onClick={handleview} >View</Button>
+                        <Button color="danger" >Approve</Button>
                         <Button color="danger" onClick={toggle}>Edit</Button>
                         <Button color="danger" onClick={toggle}>Delete</Button>
 
@@ -313,11 +338,17 @@ const Typography = () => {
                       <td>{row.namecongvan}</td>
                       <td>{row.mimetype}</td>
                       <td>{row.author_id}</td>
-                      <td>{row.status}</td>
+                      <td>{row.type}</td>
                       <br></br>
                       <ButtonGroup>
-
-                        <Button color="danger" value={row.namecongvan} onClick={handleview} >View</Button>
+                      {urldownload.length !== 0 ? urldownload.map(item => {
+                          if(item.idbutton === row._id)
+                          {
+                            return <a href={item.url}>Download</a>
+                          }
+                        }) : null}
+                        <Button color="danger" idbutton={row._id} value={row.namecongvan} onClick={handleview1} >View</Button>
+                        <Button color="danger" >Approve</Button>
                         <Button color="danger" onClick={toggle}>Edit</Button>
                         <Button color="danger" onClick={toggle}>Delete</Button>
 
