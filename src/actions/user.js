@@ -55,11 +55,8 @@ export function loginUser(payload) {
             })
             .then(
                 (res) => {
-                    console.log(res);
                     (res.data.message === 'success') ? localStorage.setItem('authenticated', true): dispatch(loginError('Something was wrong. Try again'))
                     payload.history.push('/app/main/dashboard')
-                    console.log(res.data.message)
-                    console.log(res.data.user)
                     localStorage.setItem('user-current-name', res.data.user.name)
                     localStorage.setItem('user-current-role', res.data.user.phanquyen)
                     payload.history.push('/app/main/dashboard')
