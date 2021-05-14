@@ -1,8 +1,9 @@
+
 import axios from "axios";
 // import Pusher from "pusher";
 import React, { useState, useEffect } from "react";
 import { useRef } from "react";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Alert } from "reactstrap";
 import Button from "reactstrap/lib/Button";
 import ButtonGroup from "reactstrap/lib/ButtonGroup";
 import FormGroup from "reactstrap/lib/FormGroup";
@@ -16,15 +17,21 @@ import ModalBody from "reactstrap/lib/ModalBody";
 import ModalFooter from "reactstrap/lib/ModalFooter";
 import ModalHeader from "reactstrap/lib/ModalHeader";
 import Spinner from "reactstrap/lib/Spinner";
+import Select from 'react-select';
 import Table from "reactstrap/lib/Table";
+import { ChatEngine } from 'react-chat-engine';
+
+
 // import { useRealTimeEventTrigger } from 'react-realtime'
 
 
 
 import Widget from "../../components/Widget";
+import Badge from "reactstrap/lib/Badge";
+import { Redirect } from "react-router";
 
 const Typography = () => {
-
+  
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
   const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={toggle}>&times;</button>;
@@ -39,14 +46,28 @@ const Typography = () => {
 
   const [file, setFile] = useState({})
   const [file1, setFile1] = useState({})
+  const [selectmultiple, setSelectMultiple] = useState([])
   const [urldownload, setUrlDownload] = useState([])
 
   const [getfile, setGetFile] = useState([]);
   const [getfilenot, setGetFileNot] = useState([]);
+  const [getgroup, setGetGroup] = useState([]);
   const isMountedVal = useRef(1);
   const isMountedValnot = useRef(1);
 
-
+  useEffect(() => {
+    axios.get("/api/getallgroup")
+      .then(res => {
+        const newarr = res.data.group.map(item =>{
+          return {
+            groupname : item.groupname,
+            keygroup : item.keygroup,
+          }
+        })
+        setGetGroup((getgroup) => [...getgroup, ...newarr])
+      })
+      .catch(err => console.log(err))
+  }, [])
   useEffect(() => {
     if (isMountedValnot.current === 1) {
       axios.get("/api/getallfilenotres")
@@ -67,7 +88,6 @@ const Typography = () => {
       axios.get("/api/getallfile")
         .then(res => {
           setGetFile((getfile) => [...getfile, ...res.data.file])
-          // setIsApproved(false)
         }
         )
         .catch(err => console.log(err))
@@ -84,18 +104,36 @@ const Typography = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(file);
+    console.log(selectmultiple);
     const data = new FormData();
     data.append('file', file, file.name);
+    data.append('selectMulti', selectmultiple);
+    console.log(data);
 
     axios.post('/api/uploadcongvan', data)
-      .then(res =>
-        console.log(res)
+      .then(res =>{
+        if(res.data.message === 'upload success !'){
+          alert(res.data.message);
+          return <Redirect to="/app/typography" />
+        }
+      }
       )
       .catch(err => console.log(err));
   }
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
+  }
+  const handleChangeSelect = (event) => {
+    event.preventDefault();
+
+    if (selectmultiple.indexOf(event.target.value) === -1) {
+      setSelectMultiple([...selectmultiple, event.target.value]);
+    }
+  }
+  const handleChangeSelectClear = (e) => {
+    e.preventDefault();
+    setSelectMultiple([]);
   }
 
   const handleSubmit1 = (event) => {
@@ -164,11 +202,8 @@ const Typography = () => {
     }
   }
 
-
-
-
   const handleApproved = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const id = e.target.getAttribute("idbuttonapproved");
     const data = {
       "filename": e.target.value,
@@ -179,10 +214,6 @@ const Typography = () => {
         res => {
           const new_data = getfile.filter(item => item._id !== res.data.file._id);
           setGetFile([...new_data, res.data.file]);
-          // setUrlDownload((urldownload) => [...urldownload,{
-          //   'idbutton' : id,
-          //   'url' : res.data.url,
-          // }])
         }
       )
       .catch(
@@ -204,11 +235,6 @@ const Typography = () => {
         res => {
           const new_data = getfilenot.filter(item => item._id !== res.data.file._id);
           setGetFileNot([...new_data, res.data.file]);
-
-          // setUrlDownload((urldownload) => [...urldownload,{
-          //   'idbutton' : id,
-          //   'url' : res.data.url,
-          // }])
         }
       )
       .catch(
@@ -218,22 +244,57 @@ const Typography = () => {
 
     }
   }
-
-
-  useEffect(() => {
-
-  }, [])
-
-
   if (getfile.length !== 0 || getfilenot.length !== 0) {
     return (
-
       <div>
         <h1 className="page-title">
           Công Văn - <span className="fw-semi-bold">Upload & Showing</span>
         </h1>
         <Row>
-          <Col xs={12} lg={12}>
+          <Col xs={6} lg={6}>
+            {localStorage.getItem('user-current-role') !== "thuthu" ? null :
+            <center>
+              <Widget
+                title={
+                  <h4>
+                    Upload{" "}
+                    <small className="text-danger">Công Văn</small>
+                  </h4>
+                }
+                close
+                collapse
+              >
+                
+                  <h5 className="mt-5">Công văn cần phản hồi</h5>
+                  <p>Các loại định dạng công văn (PDF, Docx , txt ,... )</p>
+                  <div className="widget-padding-md w-100 h-100 text-left border rounded">
+                    <Row>
+                      <form onSubmit={handleSubmit} enctype="multipart/form-data">
+                        <input type="file" name="file" onChange={handleChange} />
+                        <Input type="select" name="selectMulti" id="selectMulti" onChange={handleChangeSelect} multiple>
+                          {getgroup.map((row) => (
+                            <option value={row.groupname}>{row.groupname}</option>
+                          ))}
+                        </Input>
+                        <Badge color="warning">Group Selected</Badge><br></br>
+                        {selectmultiple.length === 0 ? <Widget></Widget> :
+                          <Widget>
+                            {selectmultiple.map((row) => (
+                              <Alert color="primary" value={row} >{row}</Alert>
+                            ))}
+                          </Widget>
+                        }
+                        <Button type="clear" color="danger" onClick={handleChangeSelectClear} >Clear All Group</Button>
+                        <Button type="submit" color="success">Up File</Button>
+                      </form>
+                    </Row>
+                  </div>
+                
+              </Widget>
+              </center>}
+          </Col>
+
+          <Col xs={6} lg={6}>
             {localStorage.getItem('user-current-role') !== "thuthu" ? null :
               <Widget
                 title={
@@ -245,33 +306,24 @@ const Typography = () => {
                 close
                 collapse
               >
-                <h5 className="mt-5">Công văn cần phản hồi</h5>
-                <p>Các loại định dạng công văn (PDF, Docx , txt ,... )</p>
-                <div className="widget-padding-md w-100 h-100 text-left border rounded">
-                  <Row>
-                    <form onSubmit={handleSubmit} enctype="multipart/form-data">
-                      <input type="file" name="file" onChange={handleChange} />
-                      <Input type="select" name="selectMulti" id="selectMulti" multiple>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                      </Input>
-                      <Button type="submit" color="success">Up File</Button>
-                    </form>
-                  </Row>
-                </div>
                 <h5 className="mt-5">Công văn không cần phản hồi</h5>
                 <p>Các loại định dạng công văn (PDF, Docx , txt ,... )</p>
                 <div className="widget-padding-md w-100 h-100 text-left border rounded">
                   <Row>
                     <form onSubmit={handleSubmit1} enctype="multipart/form-data">
                       <input type="file" name="filenot" id="filenot" onChange={handleChange1} />
-                      <input type="hidden" name="role" id="role" value={localStorage.getItem('user-current-role')} />
+                      <Input type="select" name="selectMulti1" id="selectMulti1" multiple>
+                        {getgroup.map((row) => (
+                          <option value={row.keygroup}>{row.groupname}</option>
+                        ))}
+                      </Input>
                       <Button type="submit" color="success">Up File</Button>
                     </form>
                   </Row>
                 </div>
               </Widget>}
-
+          </Col>
+          <Col xs={12} lg={12}>
             <Widget
               close
               collapse
@@ -372,6 +424,7 @@ const Typography = () => {
                         <td>{row.mimetype}</td>
                         <td>{row.author_id}</td>
                         <td>{row.type}</td>
+                        <td>{row.policy}</td>
                         <br></br>
                         <td>
                           <ButtonGroup>
@@ -461,9 +514,21 @@ const Typography = () => {
                 </Table>
               </div>
             </Widget>
+
+            <Widget
+              close
+              collapse
+            >
+              <ChatEngine
+                height='100vh'
+                projectID='7aa64fdf-aee6-445a-816a-2a03f2b0cdfc'
+                userName='minhnghia'
+                userSecret='123456'
+              />
+            </Widget>
           </Col>
         </Row>
-      </div>
+      </div >
     )
   }
   else {

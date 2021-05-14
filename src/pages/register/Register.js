@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Redirect, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Alert, Button, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input, Label } from 'reactstrap';
 import Widget from '../../components/Widget';
 import { registerUser, registerError } from '../../actions/register';
-import Login from '../login';
 import axios from 'axios';
 
 class Register extends React.Component {
@@ -20,8 +19,11 @@ class Register extends React.Component {
             email: '',
             password: '',
             confirmPassword: '',
-            name: '', 
+            name: '',
             gender: '',
+            phanquyen: '',
+            group: '',
+
         };
 
         this.doRegister = this.doRegister.bind(this);
@@ -32,18 +34,20 @@ class Register extends React.Component {
         this.changeName = this.changeName.bind(this);
         this.checkPassword = this.checkPassword.bind(this);
         this.isPasswordValid = this.isPasswordValid.bind(this);
+        this.changeRole = this.changeRole.bind(this);
+        this.changeGroup = this.changeGroup.bind(this);
     }
 
     changeEmail(event) {
-        this.setState({email: event.target.value});
+        this.setState({ email: event.target.value });
     }
 
     changePassword(event) {
-        this.setState({password: event.target.value});
+        this.setState({ password: event.target.value });
     }
 
     changeConfirmPassword(event) {
-        this.setState({confirmPassword: event.target.value});
+        this.setState({ confirmPassword: event.target.value });
     }
 
     checkPassword() {
@@ -60,13 +64,19 @@ class Register extends React.Component {
     }
 
     changeGender(event) {
-        this.setState({gender: event.target.value});
+        this.setState({ gender: event.target.value });
     }
     changeName(event) {
-        this.setState({name: event.target.value});
+        this.setState({ name: event.target.value });
     }
     isPasswordValid() {
-       return this.state.password && this.state.password === this.state.confirmPassword;
+        return this.state.password && this.state.password === this.state.confirmPassword;
+    }
+    changeRole(event) {
+        this.setState({ phanquyen: event.target.value });
+    }
+    changeGroup(event) {
+        this.setState({ group: event.target.value });
     }
 
     doRegister(e) {
@@ -81,9 +91,11 @@ class Register extends React.Component {
                     confirmPassword: this.state.confirmPassword,
                     gender: this.state.gender,
                     name: this.state.name,
+                    phanquyen: this.state.phanquyen,
+                    group: this.state.group,
                 },
                 history: this.props.history,
-            
+
             }));
             const form_data = {
                 email: this.state.email,
@@ -91,24 +103,28 @@ class Register extends React.Component {
                 confirmPassword: this.state.confirmPassword,
                 gender: this.state.gender,
                 name: this.state.name,
-              }
-              console.log(form_data)
-              axios.post("http://127.0.0.1:8000/api/register", form_data).then(
+                phanquyen: this.state.phanquyen,
+                group: this.state.group,
+            }
+            console.log(form_data)
+            axios.post("/api/register", form_data)
+                .then(
                     res => console.log(res.data.user),
                     // tra ve ket qua duoi server
-                ).catch(err => console.log(err))
+                )
+                .catch(err => console.log(err))
         }
     }
 
     render() {
-        const {from} = this.props.location.state || {from: {pathname: '/app'}}; // eslint-disable-line
+        // const {from} = this.props.location.state || {from: {pathname: '/app'}}; // eslint-disable-line
 
-        // cant access login page while logged in
-        if (Login.isAuthenticated(JSON.parse(localStorage.getItem('authenticated')))) {
-            return (
-                <Redirect to={from}/>
-            );
-        }
+        // // cant access login page while logged in
+        // if (Login.isAuthenticated(JSON.parse(localStorage.getItem('authenticated')))) {
+        //     return (
+        //         <Redirect to={from}/>
+        //     );
+        // }
 
         return (
             <div className="auth-page">
@@ -125,18 +141,18 @@ class Register extends React.Component {
                                     </Alert>
                                 )
                             }
-                            
+
                             <FormGroup className="mt">
                                 <Label for="email">Email</Label>
                                 <InputGroup className="input-group-no-border">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="la la-user text-white"/>
+                                            <i className="la la-user text-white" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input id="email" className="input-transparent pl-3" value={this.state.email}
-                                           onChange={this.changeEmail} type="email"
-                                           required name="email" placeholder="Your Email"/>
+                                        onChange={this.changeEmail} type="email"
+                                        required name="email" placeholder="Your Email" />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
@@ -144,12 +160,12 @@ class Register extends React.Component {
                                 <InputGroup className="input-group-no-border">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="la la-lock text-white"/>
+                                            <i className="la la-lock text-white" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input id="password" className="input-transparent pl-3" value={this.state.password}
-                                           onChange={this.changePassword} type="password"
-                                           required name="password" placeholder="Your Password"/>
+                                        onChange={this.changePassword} type="password"
+                                        required name="password" placeholder="Your Password" />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
@@ -157,12 +173,12 @@ class Register extends React.Component {
                                 <InputGroup className="input-group-no-border">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="la la-lock text-white"/>
+                                            <i className="la la-lock text-white" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input id="confirmPassword" className="input-transparent pl-3" value={this.state.confirmPassword}
-                                           onChange={this.changeConfirmPassword} onBlur={this.checkPassword} type="password"
-                                           required name="confirmPassword" placeholder="Confirm Password"/>
+                                        onChange={this.changeConfirmPassword} onBlur={this.checkPassword} type="password"
+                                        required name="confirmPassword" placeholder="Confirm Password" />
                                 </InputGroup>
                             </FormGroup>
 
@@ -171,15 +187,15 @@ class Register extends React.Component {
                                 <InputGroup className="input-group-no-border">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="fa fa-child"/>
+                                            <i className="fa fa-child" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input type="select" id="gender" className="input-transparent pl-3" value={this.state.gender}
-                                           onChange={this.changeGender} required>
-                                            <option>Choose...</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                    </Input>        
+                                        onChange={this.changeGender} required>
+                                        <option>Choose...</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </Input>
                                 </InputGroup>
                             </FormGroup>
 
@@ -188,35 +204,43 @@ class Register extends React.Component {
                                 <InputGroup className="input-group-no-border">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="la la-lock text-white"/>
+                                            <i className="la la-lock text-white" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input id="name" className="input-transparent pl-3" value={this.state.name}
-                                           onChange={this.changeName} type="text"
-                                           required name="Name" placeholder="Your Name"/>
+                                        onChange={this.changeName} type="text"
+                                        required name="Name" placeholder="Your Name" />
+                                </InputGroup>
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Label for="name">Name</Label>
+                                <InputGroup className="input-group-no-border">
+                                    <InputGroupAddon addonType="prepend">
+                                        <InputGroupText>
+                                            <i className="la la-lock text-white" />
+                                        </InputGroupText>
+                                    </InputGroupAddon>
+                                    <Input type="select" id="role" className="input-transparent pl-3" value={this.state.phanquyen}
+                                        onChange={this.changeRole} required>
+                                        <option value="truongphong">Trưởng Phòng</option>
+                                        <option value="Female">Female</option>
+                                    </Input>
                                 </InputGroup>
                             </FormGroup>
 
                             <div className="bg-widget-transparent auth-widget-footer">
                                 <Button type="submit" color="danger" className="auth-btn"
-                                        size="sm" style={{color: '#fff'}}>{this.props.isFetching ? 'Loading...' : 'Register'}</Button>
-                                <p className="widget-auth-info mt-4">
-                                    Already have the account? Login now!
-                                </p>
-                                <Link className="d-block text-center mb-4" to="login">Enter the account</Link>
-                                <div className="social-buttons">
-                                    <Button color="primary" className="social-button">
-                                        <i className="social-icon social-google"/>
-                                        <p className="social-text">GOOGLE</p>
-                                    </Button>
-                                </div>
+                                    size="sm" style={{ color: '#fff' }}>{this.props.isFetching ? 'Loading...' : 'Register'}</Button>
+
+
                             </div>
                         </form>
                     </Widget>
                 </Container>
                 <p><br></br></p>
                 <footer className="auth-footer">
-                {new Date().getFullYear()} &copy; CongVan System                    
+                    {new Date().getFullYear()} &copy; CongVan System
                 </footer>
             </div>
         );

@@ -1,6 +1,6 @@
 export default {
   auth: {
-    email: 'admin@flatlogic.com',
-    password: 'password'
+    email: 'onlyyouforever6@congvan.com',
+    password: '123456'
   }
 };

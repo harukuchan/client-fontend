@@ -9,7 +9,7 @@ import {
     DropdownMenu,
     DropdownToggle,
     DropdownItem,
-    Badge
+    
 } from "reactstrap";
 // import { Sparklines, SparklinesBars } from "react-sparklines";
 import Widget from "../../../components/Widget/Widget";
@@ -547,7 +547,7 @@ function Static() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={6}>
+                    <Col lg={9}>
                         <Widget
                             title={
                                 <h5>
@@ -557,97 +557,10 @@ function Static() {
                             settings
                             close
                         >
-                            <h3>
-                                Stripped <span className="fw-semi-bold">Table</span>
-                            </h3>
-
-                            <p>
-                                Each row is highlighted. You will never lost there. Just{" "}
-                                <code>.table-striped</code> it.
-                        </p>
-                            <br />
-                            <br />
-                            <h3>
-                                Hover <span className="fw-semi-bold">Table</span>
-                            </h3>
-                            <p>
-                                {"Trace only what's really important. "}
-                                <code>.table-hover</code> is made for it.
-                        </p>
-                            <div className="table-responsive">
-                                <Table className="table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Email</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    {/* eslint-disable */}
-                                    <tbody>
-                                        <tr>
-                                            <td>
-
-                                            </td>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>
-                                                <a href="#">ottoto@example.com</a>
-                                            </td>
-                                            <td>
-                                                <Badge color="gray" className="text-secondary" pill>
-                                                    Pending
-                                    </Badge>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>
-                                                <a href="#">fat.thor@example.com</a>
-                                            </td>
-                                            <td>
-                                                <Badge color="gray" className="text-secondary" pill>
-                                                    Unconfirmed
-                                    </Badge>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>
-                                                <a href="#">larry@example.com</a>
-                                            </td>
-                                            <td>
-                                                <Badge color="primary" className="text-secondary" pill>
-                                                    New
-                                    </Badge>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Peter</td>
-                                            <td>Horadnia</td>
-                                            <td>
-                                                <a href="#">peter@example.com</a>
-                                            </td>
-                                            <td>
-                                                <Badge color="success" className="text-secondary" pill>
-                                                    Active
-                                    </Badge>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    {/* eslint-enable */}
-                                </Table>
-                            </div>
+                        
                         </Widget>
                     </Col>
-                    <Col lg={6}>
+                    <Col lg={3}>
                         <Widget
                             title={
                                 <h5>
